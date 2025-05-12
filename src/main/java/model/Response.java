@@ -1,14 +1,11 @@
 package model;
 
-/**
- * מייצג תגובה שנשלחת מהשרת ללקוח בפורמט JSON.
- */
 public class Response {
-    private int statusCode; // למשל: 200, 400, 500
+    private int statusCode;
     private String message;
     private String body;
 
-    public Response() {} // נדרש ל-Gson
+    public Response() {}
 
     public Response(int statusCode, String message, String body) {
         this.statusCode = statusCode;
@@ -16,27 +13,12 @@ public class Response {
         this.body = body;
     }
 
-    public int getStatusCode() {
-        return statusCode;
-    }
+    public int getStatusCode() { return statusCode; }
+    public void setStatusCode(int statusCode) { this.statusCode = statusCode; }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
+    public String getMessage() { return message; }
+    public void setMessage(String message) { this.message = message; }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
+    public String getBody() { return body; }
+    public void setBody(String body) { this.body = body; }
 }

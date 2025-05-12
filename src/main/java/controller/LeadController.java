@@ -53,8 +53,12 @@ public class LeadController implements BaseController {
                         return new Response(400, "Invalid lead data", "");
                     }
 
+                    System.out.println("📥 קיבלנו ליד: " + lead);
+
+                    // הוספת לקוח חדש אם צריך
                     boolean customerExists = customerService.getAll().stream()
                             .anyMatch(c -> c.getClientNum() == lead.getClientNum());
+
                     if (!customerExists) {
                         Customer newCustomer = new Customer(
                                 lead.getClientNum(),
@@ -67,11 +71,15 @@ public class LeadController implements BaseController {
                     }
 
                     List<Lead> leads = service.getAllLeads();
+                    System.out.println("🔁 לפני שיבוץ: " + leads.size() + " לידים קיימים");
+
                     leads.removeIf(l -> l.getClientNum() == lead.getClientNum());
                     leads.add(lead);
 
                     new ConsensusScheduler().scheduleConsensus(leads);
-                    service.replaceAll(leads);
+                    service.replaceAll(leads); // כתיבה לקובץ
+
+                    System.out.println("✅ נשמרו: " + leads.size() + " לידים אחרי שיבוץ");
 
                     Lead scheduled = leads.stream()
                             .filter(l -> l.getClientNum() == lead.getClientNum())
@@ -82,6 +90,7 @@ public class LeadController implements BaseController {
 
                 case "lead/getAll":
                     List<Lead> allLeads = service.getAllLeads();
+                    System.out.println("📤 שליחת " + allLeads.size() + " לידים ללקוח");
                     return new Response(200, "All leads", gson.toJson(allLeads));
 
                 case "lead/updateDate":
